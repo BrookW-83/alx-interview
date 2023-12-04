@@ -27,7 +27,6 @@ def is_safe(q, x, array):
         return all(abs(array[column] - x) != q - column
                    for column in range(q))
 
-
 def init():
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
@@ -40,7 +39,8 @@ def init():
     if n < 4:
         print("N must be at least 4")
         sys.exit(1)
-    return (n)
+    return n
+
 
 
 def queens():
