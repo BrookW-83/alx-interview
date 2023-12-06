@@ -1,23 +1,24 @@
 #!/usr/bin/python3
+"""N Queens placement on NxN chessboard"""
 
 
 import sys
 
 
-def generate_result(row, column):
-    res= [[]]
+def generate_solutions(row, column):
+    solution = [[]]
     for queen in range(row):
-        res = place_queen(queen, column, res)
-    return res
+        solution = place_queen(queen, column, solution)
+    return solution
 
 
 def place_queen(queen, column, prev_solution):
-    position = []
+    safe_position = []
     for array in prev_solution:
         for x in range(column):
             if is_safe(queen, x, array):
-                position.append(array + [x])
-    return position
+                safe_position.append(array + [x])
+    return safe_position
 
 
 def is_safe(q, x, array):
@@ -26,6 +27,7 @@ def is_safe(q, x, array):
     else:
         return all(abs(array[column] - x) != q - column
                    for column in range(q))
+
 
 def init():
     if len(sys.argv) != 2:
@@ -39,15 +41,14 @@ def init():
     if n < 4:
         print("N must be at least 4")
         sys.exit(1)
-    return n
+    return (n)
 
 
-
-def queens():
+def n_queens():
 
     n = init()
     # generate all solutions
-    solutions = generate_result(n, n)
+    solutions = generate_solutions(n, n)
     # print solutions
     for array in solutions:
         clean = []
@@ -57,4 +58,4 @@ def queens():
 
 
 if __name__ == '__main__':
-    queens()
+    n_queens()
