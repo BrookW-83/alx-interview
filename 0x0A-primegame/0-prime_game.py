@@ -1,47 +1,51 @@
 #!/usr/bin/python3
-"""
-Module: Game of choosing Prime numbers
-"""
+"""Prime Game"""
 
-
-"""Return list of prime numbers between 1 and n inclusive
-       Args:
-        n (int): upper boundary of range. lower boundary is always 1
-"""
-
-def primeNumbers(n):
-    
-    primeNos = []
-    filtered = [True] * (n + 1)
-    for prime in range(2, n + 1):
-        if (filtered[prime]):
-            primeNos.append(prime)
-            for i in range(prime, n + 1, prime):
-                filtered[i] = False
-    return primeNos
-
-    """
-    Determines winner of Prime Game
-    Args:
-        x (int): no. of rounds of game
-        nums (int): upper limit of range for each round
-    Return:
-        Name of winner (Maria or Ben) or None if winner cannot be found
-    """
 
 def isWinner(x, nums):
-   
-    if x is None or nums is None or x == 0 or nums == []:
-        return None
-    Maria = Ben = 0
-    for i in range(x):
-        primeNos = primeNumbers(nums[i])
-        if len(primeNos) % 2 == 0:
-            Ben += 1
+    """Determine the winner of a game based on a set of
+    consecutive integers and the number of rounds played.
+    """
+    def sieve(limit):
+        """ Generate a list of prime numbers up to a given limit"""
+        primes = []
+        sieve = [True] * (limit + 1)
+        sieve[0] = sieve[1] = False
+        p = 2
+        while p * p <= limit:
+            if sieve[p]:
+                for i in range(p * p, limit + 1, p):
+                    sieve[i] = False
+            p += 1
+        for p in range(2, limit + 1):
+            if sieve[p]:
+                primes.append(p)
+        return primes
+
+    def isPrime(n):
+        """ Check if a number is prime."""
+        if n == 1 or n == 0 or (n % 2 == 0 and n > 2):
+            return False
         else:
-            Maria += 1
-    if Maria > Ben:
-        return 'Maria'
-    elif Ben > Maria:
-        return 'Ben'
-    return None
+            for i in range(3, int(n**(1/2))+1, 2):
+                if n % i == 0:
+                    return "Not prime"
+            return True
+
+    maria_wins = 0
+    ben_wins = 0
+
+    for n in nums:
+        primes = sieve(n)
+        prime_count = sum(1 for p in primes if isPrime(p))
+        if prime_count % 2 == 0:
+            ben_wins += 1
+        else:
+            maria_wins += 1
+
+    if maria_wins > ben_wins:
+        return "Maria"
+    elif ben_wins > maria_wins:
+        return "Ben"
+    else:
+        return None
