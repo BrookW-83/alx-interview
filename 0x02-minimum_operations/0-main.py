@@ -1,13 +1,6 @@
 #!/usr/bin/python3
-"""
-Main file for testing
-"""
 
-minOperations = __import__('0-minoperations').minOperations
+isWinner = __import__('0-prime_game').isWinner
 
-n = 4
-print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))
 
-n = 12
-print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))
-
+print("Winner: {}".format(isWinner(5, [2, 5, 1, 4, 3])))
